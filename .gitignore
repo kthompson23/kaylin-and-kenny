@@ -1,0 +1,6 @@
+virtualenv/
+weddingPictures/images/
+
+# python specific stuff
+__pycache__
+*.pyc
