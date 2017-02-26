@@ -1,5 +1,5 @@
 virtualenv/
-weddingPictures/images/
+weddingPictures/static/images/
 
 # python specific stuff
 __pycache__
