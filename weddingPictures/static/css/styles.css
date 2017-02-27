@@ -6,8 +6,7 @@ header h1 {
 .carousel {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;
 }
 
 .image-button {
