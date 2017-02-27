@@ -53,7 +53,13 @@ def resize():
                         med_image = resizeimage.resize_width(large_image, 1200)
                         med_image.save(os.path.join(images_directory, entry.name, 'medium', orig_image.name))
 
-                        small_image = resizeimage.resize_width(large_image, 300)
+                        # small ones need to be a uniform 300px by 199px (WxH) so portrait ones will be center cropped
+                        if large_image.height > large_image.width:
+                            small_image = resizeimage.resize_width(large_image, 300)
+                            small_image = resizeimage.resize_crop(small_image, [300, 199])
+                        else:
+                            small_image = resizeimage.resize_width(large_image, 300)
+
                         small_image.save(os.path.join(images_directory, entry.name, 'small', orig_image.name))
 
     except OSError as ex:
