@@ -8,9 +8,8 @@
     {{ super() }}
     <div class="carousel">
         {% for image in images %}
-            <!--<button class="image-button" onclick="showImage('images/DSC_4719.jpg')">-->
-            <button class="image-button">
-                <img class="media" src="{{ url_for('static', filename = 'images/' + event + '/small/' + image) }}" alt=image />
+            <button class="image-button" onclick="window.alert('{{ image }}')">
+                <img class="media" src="{{ url_for('static', filename = 'images/' + event + '/small/' + image) }}" alt="{{ image }}" />
             </button>
         {% endfor %}
     </div>
