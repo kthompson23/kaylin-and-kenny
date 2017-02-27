@@ -1,21 +1,15 @@
-<!Doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/styles.css') }}" media="screen" />
-        <title>{{ event }} photos</title>
-    </head>
-    <body>
-        <header>
-            <h1>You are looking at our {{ event }} photos!</h1>
-        </header>
-        <div class="flex-container">
-            <main class="content">
-            </main>
-            <footer class="footer">
-                <small>&copy Kaylin and Kenny</small>
-            </footer>
-        </div>
-    </body>
-<html>
+{% extends "base.html" %}
+{% block title %}{{ event }} photos{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/styles.css') }}" media="screen" />
+{% endblock %}
+{% block main %}
+    {{ super() }}
+    {% for image in images %}
+        <!--<button class="image-button" onclick="showImage('images/DSC_4719.jpg')">-->
+        <button class="image-button">
+            <img class="media" src="{{ url_for('static', filename = 'images/' + event + '/small/' + image) }}" alt=image />
+        </button>
+    {% endfor %}
+{% endblock %}
