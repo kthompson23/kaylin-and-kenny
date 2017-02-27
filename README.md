@@ -1,4 +1,4 @@
-A simple website to share our website and engagement photos.
+A simple website to share our wedding and engagement photos.
 
 Kaylin and Kenny
 
