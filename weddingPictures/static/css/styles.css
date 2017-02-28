@@ -12,6 +12,7 @@ header h1 {
 .image-button {
   border:0 none;
   background: transparent;
+  cursor: pointer;
 }
 
 .media {
