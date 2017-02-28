@@ -8,12 +8,17 @@
         <title>{% block title %}Kaylin and Kenny{% endblock %}</title>
         {% endblock %}
     </head>
-    <body>
     <header>
         <nav>
-            <h2>Kaylin and Kenny</h2>
+            <ul class="site-nav">
+                <li class="home-nav"><a href="/">Kaylin and Kenny</a></li>
+                <li><a href="/photos/engagement">engagement</a></li>
+                <li><a href="/photos/wedding">wedding</a></li>
+                <li><a href="/about">about</a></li>
+            </ul>
         </nav>
     </header>
+    <body>
     <div class="flex-container">
         <main class="content">
             {% block main %}
