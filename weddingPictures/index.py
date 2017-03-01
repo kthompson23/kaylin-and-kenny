@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, abort
 from flask_script import Manager
 import os
+import sqlite3
+
 app = Flask(__name__)
 manager = Manager(app)
 
@@ -23,11 +25,16 @@ def photos(event):
     if event not in available_events:
         abort(404)
 
-
     images = []
-    image_path = os.path.join('weddingPictures', 'static', 'images', event, 'small')
-    for image in os.scandir(image_path):
-        images.append(image.name)
+
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+    db_path = os.path.join(base_dir, 'database', 'db.sqlite3')
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+    for row in (c.execute('SELECT file_name FROM images WHERE event = (?)', (event,))):
+        images.append(row[0])
+
+    conn.close()
 
     return render_template('event.html', event=event, images=images)
 
