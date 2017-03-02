@@ -3,9 +3,10 @@ from flask_script import Manager
 import os
 import sqlite3
 
+from database.data_access import DataAccess
+
 app = Flask(__name__)
 manager = Manager(app)
-
 
 @app.route('/')
 def index():
@@ -25,16 +26,8 @@ def photos(event):
     if event not in available_events:
         abort(404)
 
-    images = []
-
-    base_dir = os.path.abspath(os.path.dirname(__file__))
-    db_path = os.path.join(base_dir, 'database', 'db.sqlite3')
-    conn = sqlite3.connect(db_path)
-    c = conn.cursor()
-    for row in (c.execute('SELECT file_name FROM images WHERE event = (?)', (event,))):
-        images.append(row[0])
-
-    conn.close()
+    with DataAccess() as db:
+        images = db.get_images(event)
 
     return render_template('event.html', event=event, images=images)
 
