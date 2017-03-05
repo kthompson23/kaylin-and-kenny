@@ -60,3 +60,7 @@ body {
 .content, .footer {
 	padding: 0.8em 2.5em;
 }
+
+h2.error-text {
+  font-size: 1.2em;
+}
