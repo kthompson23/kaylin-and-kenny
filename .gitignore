@@ -1,5 +1,5 @@
 virtualenv/
-weddingPictures/static/images/
+app/static/images/
 database/*.sqlite3
 
 # python specific stuff
