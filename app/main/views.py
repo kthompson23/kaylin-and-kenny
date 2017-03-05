@@ -1,6 +1,7 @@
 from flask import render_template
+from . import main
 
-@main.route('/', methodos=['GET'])
+@main.route('/', methods=['GET'])
 def index():
     '''
     Default landing page

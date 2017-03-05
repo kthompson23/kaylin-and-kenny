@@ -7,7 +7,7 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     # routes and errors
-    from main import main as main_blueprint
+    from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
     return app
