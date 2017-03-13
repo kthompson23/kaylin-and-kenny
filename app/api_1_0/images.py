@@ -25,7 +25,7 @@ def get_images():
 
     next = None
     if more_avail:
-        next = url_for('api.get_images', page=page+1, event=event, _external=True)
+        next = url_for('api.get_images', page=page+1, event=event, limit=limit, _external=True)
     
     return jsonify({
         'images': [url_for('static', filename = path.join('images', event, 'small', image)) for image in images],
