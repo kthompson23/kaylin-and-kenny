@@ -1,6 +1,6 @@
 virtualenv/
 app/static/images/
-database/*.sqlite3
+*.sqlite3
 
 # python specific stuff
 __pycache__
