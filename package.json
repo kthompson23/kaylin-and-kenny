@@ -8,6 +8,8 @@
   },
   "scripts": {
     "start": "webpack --progress --colors --watch",
+    "clean": "node_modules/.bin/rimraf app/static/javascript/*bundle.js*",
+    "prestart": "npm run clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -35,6 +37,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.0",
+    "rimraf": "^2.6.1",
     "webpack": "^2.2.1"
   }
 }
