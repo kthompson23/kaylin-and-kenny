@@ -31,3 +31,28 @@ class DataAccess:
             images.append(row[0])
 
         return images
+
+    def get_images(self, event, page, images_per_page=50):
+        '''
+        Return a list of image files for a given event and specified page.
+        Params: event - name of the event
+                page - page number; 1, 2, 3, n
+                images_per_page - number of images to include in each page (default 50)
+        Returns: total_images - total number of images
+                 images - list of image names.
+                 more_available - boolean
+        '''
+
+        self.cursor.execute('SELECT COUNT(*) FROM images WHERE event = (?)', (event,))
+        total_images = self.cursor.fetchone()[0]
+
+        images = []        
+        offset = page * images_per_page
+        for row in (self.cursor.execute('SELECT file_name FROM images WHERE event = (?) LIMIT (?), (?)', (event, offset, images_per_page))):
+            images.append(row[0])
+
+        more_available = False
+        if (page * images_per_page < total_images):
+            more_available = True
+
+        return total_images, images, more_available
