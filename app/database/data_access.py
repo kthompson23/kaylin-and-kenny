@@ -20,7 +20,7 @@ class DataAccess:
     def __exit__(self, exc_type, exc_value, traceback):
         self.connection.close()
 
-    def get_images(self, event):
+    def get_all_images(self, event):
         '''
         Return a list of image file names for a given event.
         Params: event - name of the event

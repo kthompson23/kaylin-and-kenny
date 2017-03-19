@@ -22,6 +22,6 @@ def photos(event):
         abort(404)
 
     with DataAccess() as db:
-        images = db.get_images(event)
+        total_images, images, more_available = db.get_images(event, page=0)
 
     return render_template('event.html', event=event, images=images)
