@@ -5,7 +5,7 @@ from ..database.data_access import DataAccess
 from . import api
 from .errors import bad_request
 
-@api.route('/images/')
+@api.route('/images')
 def get_images():
     '''
     Return paginated list of images
