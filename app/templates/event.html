@@ -6,11 +6,7 @@
 {% endblock %}
 {% block main %}
     {{ super() }}
-    <div class="carousel">
-        {% for image in images %}
-            <button class="image-button" onclick="window.alert('{{ image }}')">
-                <img class="media" src="{{ url_for('static', filename = 'images/' + event + '/small/' + image) }}" alt="{{ image }}" />
-            </button>
-        {% endfor %}
+    <!-- mount point for ReactDom -->
+    <div id="main">
     </div>
 {% endblock %}

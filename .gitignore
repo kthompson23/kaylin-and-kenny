@@ -2,6 +2,10 @@ virtualenv/
 app/static/images/
 *.sqlite3
 
+# Javascript
+node_modules/
+*.bundle.js*
+
 # python specific stuff
 __pycache__
 *.pyc

@@ -8,24 +8,27 @@
         <title>{% block title %}Kaylin and Kenny{% endblock %}</title>
         {% endblock %}
     </head>
-    <header>
-        <nav>
-            <ul class="site-nav">
-                <li class="home-nav"><a href="/">Kaylin and Kenny</a></li>
-                <li><a href="/photos/engagement">engagement</a></li>
-                <li><a href="/photos/wedding">wedding</a></li>
-                <li><a href="/about">about</a></li>
-            </ul>
-        </nav>
-    </header>
     <body>
-    <div class="flex-container">
-        <main class="content">
-            {% block main %}
-            {% endblock %}
-        </main>
-        <footer class="footer">
-            <small>&copy Kaylin and Kenny</small>
-        </footer>
+        <header>
+            <nav>
+                <ul class="site-nav">
+                    <li class="home-nav"><a href="/">Kaylin and Kenny</a></li>
+                    <li><a href="/photos/engagement">engagement</a></li>
+                    <li><a href="/photos/wedding">wedding</a></li>
+                    <li><a href="/about">about</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="flex-container">
+            <main class="content">
+                {% block main %}
+                {% endblock %}
+            </main>
+            <footer class="footer">
+                <small>&copy; Kaylin and Kenny</small>
+            </footer>
+        </div>
     </body>
+    <!-- React attached to a div with id="class". The include must come after that -->
+    <script type="text/javascript" src="{{ url_for('static', filename = 'javascript/webpack.bundle.js') }}"></script>
 </html>
