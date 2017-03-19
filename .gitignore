@@ -1,11 +1,15 @@
-virtualenv/
+# Database
 app/static/images/
 *.sqlite3
+
+# Editor
+.vscode/
 
 # Javascript
 node_modules/
 *.bundle.js*
 
-# python specific stuff
+# Python specific stuff
 __pycache__
 *.pyc
+virtualenv/
