@@ -6,9 +6,8 @@
 {% endblock %}
 {% block main %}
     {{ super() }}
+    <!-- Let react know what event the user has clicked -->
+    <span id="react-event-name" style="display: none">{{ event }}</span>
     <!-- mount point for ReactDom -->
-    <div id="main">
-        <!-- Let react know what event the user has clicked -->
-        <span class="event-name {{ event }}" style="display: none"></span>
-    </div>
+    <div id="main" />
 {% endblock %}

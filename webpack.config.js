@@ -1,5 +1,9 @@
 const path = require('path');
 
+const NODE_ENV = process.env.NODE_ENV;
+const isDev = NODE_ENV === 'development';
+const isProd = NODE_ENV === 'production';
+
 module.exports = {
   entry: {
     js: './app/client/viewer.js',
@@ -20,7 +24,13 @@ module.exports = {
         test: /\.css$/,
         use: [
           { loader: 'style-loader' },
-          { loader: 'css-loader' },
+          { loader: 'css-loader',
+            query: {
+              modules: true,
+              localIdentName: '[name]__[local]___[hash:base64:5]',
+              minimize: isProd,
+            },
+          },
         ],
       },
     ],
