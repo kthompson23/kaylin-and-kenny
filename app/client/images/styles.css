@@ -1,0 +1,36 @@
+.media-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.image-button {
+  border:0 none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.media {
+  height: auto;
+  width: auto;
+  max-width: 300px;
+  margin: 1em;
+}
+
+.large {
+  max-width: 600px;
+}
+
+.image-zoom {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 1000px;
+  height: 1000px;
+  z-index: 1;
+  display: none;
+  visibility: hidden;
+}
