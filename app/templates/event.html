@@ -11,3 +11,8 @@
     <!-- mount point for ReactDom -->
     <div id="main" />
 {% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename = 'javascript/webpack.bundle.js') }}"></script>
+{% endblock %}
+
