@@ -10,7 +10,7 @@ class ImagesContainer extends React.Component {
 
     this.state = {
       event: '',
-      isFetching: 0,
+      isFetching: false,
       images: [],
       hasNext: false,
       page: 0,
@@ -79,8 +79,8 @@ class ImagesContainer extends React.Component {
    */
   handleScrollEvent() {
     if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
-      console.log('checking');
-      if (this.state.hasNext) {
+      if (this.state.hasNext && !this.state.isFetching) {
+        // if a fetch is already in progress let it finish.
         this.loadImages(this.state.event, this.state.page + 1);
       }
     }

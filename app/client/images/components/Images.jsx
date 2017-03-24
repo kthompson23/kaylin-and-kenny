@@ -7,7 +7,13 @@ import styles from '../styles.css';
  * @param {*} imagePath - absolute path
  * http://stackoverflow.com/questions/423376/how-to-get-the-file-name-from-a-full-path-using-javascript
  */
-const getFilename = imagePath => imagePath.split('\\').pop().split('/').pop();
+const getFilename = (imagePath) => {
+  if (typeof imagePath === 'string') {
+    return imagePath.split('\\').pop().split('/').pop();
+  }
+
+  return '';
+};
 
 const Images = ({ images, isFetching }) => (
   <div>
