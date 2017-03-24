@@ -18,6 +18,7 @@ class ImagesContainer extends React.Component {
       totalPages: 0,
     };
 
+    this.cancelSource = axios.CancelToken.source();
     this.handleScrollEvent = this.handleScrollEvent.bind(this);
   }
 
@@ -36,8 +37,15 @@ class ImagesContainer extends React.Component {
 
   componentWillUnmount() {
     this.removeScrollListener();
+    // Cancel any ongoing requests.
+    this.cancelSource.cancel();
   }
 
+  /**
+   * Given an event name and page number retrieve a paginated list of images.
+   * @param {string} event - name of the event
+   * @param {int} page - zero based
+   */
   loadImages(event, page) {
     this.setState({
       isFetching: true,
@@ -49,7 +57,9 @@ class ImagesContainer extends React.Component {
       headers: { Accept: 'application/json' },
     });
 
-    request.get(`images?event=${event}&page=${page}`)
+    request.get(`images?event=${event}&page=${page}`, {
+      cancelToken: this.cancelSource.token,
+    })
     .then((response) => {
       let hasNext = false;
       if (response.data.next !== null) {
@@ -69,6 +79,10 @@ class ImagesContainer extends React.Component {
       });
     })
     .catch((error) => {
+      if (axios.isCancel(error)) {
+        // User has navigated off the page while a request was in progress.
+        return;
+      }
       console.log(error);
     });
   }
