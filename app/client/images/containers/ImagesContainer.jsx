@@ -17,19 +17,14 @@ class ImagesContainer extends React.Component {
       totalImages: 0,
       totalPages: 0,
     };
+
+    this.handleScrollEvent = this.handleScrollEvent.bind(this);
   }
 
   componentDidMount() {
     // Infinite image scroll. If the user scrolls to the bottom of the page and there are
     // additional images, go fetch them.
-    this.origOnScroll = window.onscroll;
-    window.onscroll = () => {
-      if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
-        if (this.state.hasNext) {
-          this.loadImages(this.state.event, this.state.page + 1);
-        }
-      }
-    };
+    window.addEventListener('scroll', this.handleScrollEvent);
 
     // The event has been passed to React via an id called react-event-name
     const eventNameNode = document.getElementById('react-event-name');
@@ -40,7 +35,7 @@ class ImagesContainer extends React.Component {
   }
 
   componentWillUnmount() {
-    window.onscroll = this.origOnScroll;
+    this.removeScrollListener();
   }
 
   loadImages(event, page) {
@@ -59,7 +54,10 @@ class ImagesContainer extends React.Component {
       let hasNext = false;
       if (response.data.next !== null) {
         hasNext = true;
+      } else {
+        this.removeScrollListener();
       }
+
       this.setState({
         event,
         images: this.state.images.concat(response.data.results.images),
@@ -73,6 +71,27 @@ class ImagesContainer extends React.Component {
     .catch((error) => {
       console.log(error);
     });
+  }
+
+  /**
+   * Fetch any additional image pages when the user scrolls to the bottom
+   * of the page.
+   */
+  handleScrollEvent() {
+    if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+      console.log('checking');
+      if (this.state.hasNext) {
+        this.loadImages(this.state.event, this.state.page + 1);
+      }
+    }
+  }
+
+  /**
+   * No more paginated list of images available. Remove scroll listener
+   * Checking if the user has reached the bottom of the page.
+   */
+  removeScrollListener() {
+    window.removeEventListener('scroll', this.handleScrollEvent);
   }
 
   render() {
