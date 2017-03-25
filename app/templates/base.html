@@ -5,27 +5,32 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/basestyles.css') }}" media="screen" />
+        <script src="https://use.fontawesome.com/409dcbdede.js"></script>
         <title>{% block title %}Kaylin and Kenny{% endblock %}</title>
         {% endblock %}
     </head>
-    <header>
-        <nav>
-            <ul class="site-nav">
-                <li class="home-nav"><a href="/">Kaylin and Kenny</a></li>
-                <li><a href="/photos/engagement">engagement</a></li>
-                <li><a href="/photos/wedding">wedding</a></li>
-                <li><a href="/about">about</a></li>
-            </ul>
-        </nav>
-    </header>
     <body>
-    <div class="flex-container">
-        <main class="content">
-            {% block main %}
-            {% endblock %}
-        </main>
-        <footer class="footer">
-            <small>&copy Kaylin and Kenny</small>
-        </footer>
+        <header>
+            <nav>
+                <ul class="site-nav">
+                    <li class="home-nav"><a href="/">Kaylin and Kenny</a></li>
+                    <li><a href="/photos/engagement">engagement</a></li>
+                    <li><a href="/photos/wedding">wedding</a></li>
+                    <li><a href="/about">about</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="flex-container">
+            <main class="content">
+                {% block main %}
+                {% endblock %}
+            </main>
+            <footer class="footer">
+                <small>&copy; Kaylin and Kenny</small>
+            </footer>
+        </div>
+        <!-- any late loading scripts needed by any template inheriting this base template -->
+        {% block scripts %}
+        {% endblock %}
     </body>
 </html>
