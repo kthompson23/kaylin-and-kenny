@@ -1,9 +1,10 @@
 from flask import render_template, redirect, abort
 from . import main
-
+from .nocache import nocache
 from ..database.data_access import DataAccess
 
 @main.route('/', methods=['GET'])
+@nocache
 def index():
     '''
     Default landing page
@@ -11,6 +12,7 @@ def index():
     return render_template('home.html')
 
 @main.route('/photos/<event>')
+@nocache
 def photos(event):
     '''
     Display a photos for a passed in event.
