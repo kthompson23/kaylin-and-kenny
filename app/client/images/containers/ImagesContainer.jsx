@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 
 import Images from '../components/Images';
-import styles from '../styles.css';
 
 class ImagesContainer extends React.Component {
   constructor() {
@@ -20,6 +19,7 @@ class ImagesContainer extends React.Component {
 
     this.cancelSource = axios.CancelToken.source();
     this.handleScrollEvent = this.handleScrollEvent.bind(this);
+    this.scrollUp = this.scrollUp.bind(this);
   }
 
   componentDidMount() {
@@ -108,11 +108,38 @@ class ImagesContainer extends React.Component {
     window.removeEventListener('scroll', this.handleScrollEvent);
   }
 
+  /**
+   * Scroll up to either the top of the page or the next "page"
+   * based on how many pages of images have been fixed.
+   */
+  scrollUp() {
+    // zero based
+    const currPage = this.state.page + 1;
+    const currYPos = window.pageYOffset;
+    const totalBodyHeight = document.body.offsetHeight;
+
+    if (currYPos === 0) {
+      return;
+    }
+
+    let scrollToYPos = totalBodyHeight;
+    // Based on the number of pages that have been fetched divide up the body
+    // into an even number of pixels.
+    const scrollParts = Math.floor(totalBodyHeight / currPage);
+    while (scrollToYPos >= currYPos) {
+      scrollToYPos -= scrollParts;
+    }
+
+    // Don't touch the X value.
+    window.scroll(window.pageXOffset, scrollToYPos);
+  }
+
   render() {
     return (
       <Images
         isFetching={this.state.isFetching}
         images={this.state.images}
+        onScrollRequest={this.scrollUp}
       />
     );
   }

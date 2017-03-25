@@ -36,7 +36,29 @@ const loadProgressBar = (isFetching) => {
   );
 };
 
-const Images = ({ images, isFetching }) => (
+/**
+ * Add a scroll up button in a fixed position.
+ * @param {bool} isFetching
+ * @param {func} onScrollRequest
+ */
+const loadScrollHelper = (isFetching, onScrollRequest) => {
+  if (!isFetching) {
+    return (
+      <button
+        className={styles['scroll-button']}
+        onClick={onScrollRequest}
+      >
+        <i className="fa fa-angle-double-up fa-4x fa-inverse" />
+      </button>
+    );
+  }
+
+  return (
+    <span />
+  );
+};
+
+const Images = ({ images, isFetching, onScrollRequest }) => (
   <div>
     <div className={styles['media-container']}>
       {images.map((link) => {
@@ -53,6 +75,7 @@ const Images = ({ images, isFetching }) => (
       },
       )}
     </div>
+    {loadScrollHelper(isFetching, onScrollRequest)}
     {loadProgressBar(isFetching)}
   </div>
 );
@@ -60,6 +83,7 @@ const Images = ({ images, isFetching }) => (
 Images.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   images: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onScrollRequest: PropTypes.func.isRequired,
 };
 
 export default Images;
