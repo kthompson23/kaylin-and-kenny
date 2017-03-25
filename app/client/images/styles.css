@@ -36,3 +36,14 @@
   display: none;
   visibility: hidden;
 }
+
+/* center the progress spinner */
+.progress-container {
+  width: 100%;
+}
+
+.progress {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+}

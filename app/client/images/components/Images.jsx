@@ -15,21 +15,45 @@ const getFilename = (imagePath) => {
   return '';
 };
 
+/**
+ * If additional images are being fetched, display a progress spinner
+ * @param {bool} isFetching
+ */
+const loadProgressBar = (isFetching) => {
+  if (isFetching) {
+    return (
+      <div className={styles['progress-container']}>
+        <div className={styles.progress}>
+          <i className="fa fa-spinner fa-pulse fa-2x fa-fw progress" />
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <span />
+  );
+};
+
 const Images = ({ images, isFetching }) => (
   <div>
-    {images.map((link) => {
-      const fileName = getFilename(link);
-      return (
-        <button
-          key={fileName}
-          className={styles['image-button']}
-          onClick={() => window.alert('hi')}
-        >
-          <img className={styles.media} src={link} alt={fileName} />
-        </button>
-      );
-    },
-    )}
+    <div className={styles['media-container']}>
+      {images.map((link) => {
+        const fileName = getFilename(link);
+        return (
+          <button
+            key={fileName}
+            className={styles['image-button']}
+            onClick={() => window.alert('hi')}
+          >
+            <img className={styles.media} src={link} alt={fileName} />
+          </button>
+        );
+      },
+      )}
+    </div>
+    {loadProgressBar(isFetching)}
   </div>
 );
 

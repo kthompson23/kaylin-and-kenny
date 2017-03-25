@@ -110,12 +110,10 @@ class ImagesContainer extends React.Component {
 
   render() {
     return (
-      <div className={styles['media-container']}>
-        <Images
-          isFetching={this.state.isFetching}
-          images={this.state.images}
-        />
-      </div>
+      <Images
+        isFetching={this.state.isFetching}
+        images={this.state.images}
+      />
     );
   }
 }
