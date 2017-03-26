@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const NODE_ENV = process.env.NODE_ENV;
 const isDev = NODE_ENV === 'development';
@@ -35,6 +36,14 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'),
+      },
+    }),
+    new webpack.optimize.UglifyJsPlugin(),
+  ],
   resolve: {
     modules: ['node_modules', './client/src'],
     extensions: ['.js', '.jsx'],
