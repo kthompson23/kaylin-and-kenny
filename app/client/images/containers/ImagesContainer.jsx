@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Map as ImmMap } from 'immutable';
 
 import Images from '../components/Images';
 import { actions as ImagesActions } from '../../redux/domain/Images';
@@ -10,14 +11,12 @@ class ImagesContainer extends React.Component {
   constructor() {
     super();
 
+    // The event has been passed to React via an id called react-event-name
+    const eventNameNode = document.getElementById('react-event-name');
+    const event = eventNameNode.innerText;
     this.state = {
-      event: '',
+      event,
       isFetching: false,
-      images: [],
-      hasNext: false,
-      page: 0,
-      totalImages: 0,
-      totalPages: 0,
     };
 
     this.cancelSource = axios.CancelToken.source();
@@ -30,18 +29,29 @@ class ImagesContainer extends React.Component {
     // additional images, go fetch them.
     window.addEventListener('scroll', this.handleScrollEvent);
 
-    // The event has been passed to React via an id called react-event-name
-    const eventNameNode = document.getElementById('react-event-name');
-    const event = eventNameNode.innerText;
     // api paging is zero based.
     const page = 0;
-    this.loadImages(event, page);
+    this.loadImages(this.state.event, page);
   }
 
   componentWillUnmount() {
     this.removeScrollListener();
     // Cancel any ongoing requests.
     this.cancelSource.cancel();
+  }
+
+  /**
+   * Helper to return the last page that was fetched.
+   */
+  currPage() {
+    return this.props.eventData.getIn([this.state.event, 'resultHeader', 'page'], 0);
+  }
+
+  /**
+   * Helper to retun whether there are more pages available or not.
+   */
+  hasNext() {
+    return this.props.eventData.getIn([this.state.event, 'resultHeader', 'next'], null) !== null;
   }
 
   /**
@@ -68,10 +78,7 @@ class ImagesContainer extends React.Component {
       cancelToken: this.cancelSource.token,
     })
     .then((response) => {
-      let hasNext = false;
-      if (response.data.next !== null) {
-        hasNext = true;
-      } else {
+      if (response.data.next === null) {
         this.removeScrollListener();
       }
 
@@ -87,13 +94,7 @@ class ImagesContainer extends React.Component {
       );
 
       this.setState({
-        event,
-        images: this.state.images.concat(response.data.results.images),
         isFetching: false,
-        hasNext,
-        page,
-        totalImages: response.data.totalImages,
-        totalPages: response.data.totalPages,
       });
     })
     .catch((error) => {
@@ -111,9 +112,9 @@ class ImagesContainer extends React.Component {
    */
   handleScrollEvent() {
     if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
-      if (this.state.hasNext && !this.state.isFetching) {
+      if (this.hasNext() && !this.state.isFetching) {
         // if a fetch is already in progress let it finish.
-        this.loadImages(this.state.event, this.state.page + 1);
+        this.loadImages(this.state.event, this.currPage() + 1);
       }
     }
   }
@@ -132,7 +133,7 @@ class ImagesContainer extends React.Component {
    */
   scrollUp() {
     // zero based
-    const currPage = this.state.page + 1;
+    const currPage = this.currPage() + 1;
     const currYPos = window.pageYOffset;
     const totalBodyHeight = document.body.offsetHeight;
 
@@ -153,18 +154,28 @@ class ImagesContainer extends React.Component {
   }
 
   render() {
+    const {
+      eventData,
+    } = this.props;
+
+    const images = eventData.getIn([this.state.event, 'images'], []);
     return (
       <Images
         isFetching={this.state.isFetching}
-        images={this.state.images}
+        images={images}
         onScrollRequest={this.scrollUp}
       />
     );
   }
 }
 
+ImagesContainer.propTypes = {
+  eventData: PropTypes.instanceOf(ImmMap).isRequired,
+  receiveImages: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => {
-  const eventData = state.images;
+  const eventData = state.images.get('event');
   return {
     eventData,
   };

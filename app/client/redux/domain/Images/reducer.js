@@ -1,18 +1,20 @@
+import { Map as ImmMap } from 'immutable';
 import { RECEIVE_IMAGES } from './constants';
 
-export const initialState = {};
+export const initialState = ImmMap({
+  event: ImmMap(),
+});
 
 const ImagesReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_IMAGES: {
-      const images = action.event in state ? state[action.event].images : [];
-      const newEventData = {};
-      newEventData[action.event] = {
-        images: images.concat(action.images),
+      const eventName = action.event;
+      const prevImages = state.getIn(['event', eventName, 'images'], []);
+      const images = prevImages.concat(action.images);
+      return state.mergeIn(['event', eventName], {
+        images,
         resultHeader: action.resultHeader,
-      };
-
-      return Object.assign({}, state, newEventData);
+      });
     }
     default:
       return state;
