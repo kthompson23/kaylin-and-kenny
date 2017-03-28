@@ -1,7 +1,10 @@
 import React from 'react';
 import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import Images from '../components/Images';
+import { actions as ImagesActions } from '../../redux/domain/Images';
 
 class ImagesContainer extends React.Component {
   constructor() {
@@ -47,6 +50,10 @@ class ImagesContainer extends React.Component {
    * @param {int} page - zero based
    */
   loadImages(event, page) {
+    const {
+      receiveImages,
+    } = this.props;
+
     this.setState({
       isFetching: true,
     });
@@ -67,6 +74,17 @@ class ImagesContainer extends React.Component {
       } else {
         this.removeScrollListener();
       }
+
+      receiveImages(
+        event,
+        response.data.results.images,
+        {
+          next: response.data.next,
+          page,
+          totalImages: response.data.totalImages,
+          totalPages: response.data.totalPages,
+        },
+      );
 
       this.setState({
         event,
@@ -145,4 +163,16 @@ class ImagesContainer extends React.Component {
   }
 }
 
-export default ImagesContainer;
+const mapStateToProps = (state) => {
+  const eventData = state.images;
+  return {
+    eventData,
+  };
+};
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators(ImagesActions, dispatch)
+);
+
+// connect returns a function that accepts a component
+export default connect(mapStateToProps, mapDispatchToProps)(ImagesContainer);
