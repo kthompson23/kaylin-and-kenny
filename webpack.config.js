@@ -7,7 +7,7 @@ const isProd = NODE_ENV === 'production';
 
 module.exports = {
   entry: {
-    js: './app/client/viewer.js',
+    js: './app/client/viewer.jsx',
   },
   output: {
     path: path.resolve(__dirname, './app/static/javascript'),
