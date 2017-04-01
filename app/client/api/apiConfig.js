@@ -8,7 +8,7 @@ const headers = {
 };
 
 const config = {
-  baseURL: `${apiBaseURL}/${apiVersion}/`,
+  baseURL: `${apiBaseURL}/${apiVersion}`,
   timeout,
   headers,
 };

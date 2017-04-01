@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
-import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Map as ImmMap } from 'immutable';
 
+import api from '../../api';
 import Images from '../components/Images';
 import { actions as ImagesActions } from '../../redux/domain/Images';
 
@@ -19,7 +19,7 @@ class ImagesContainer extends React.Component {
       isFetching: false,
     };
 
-    this.cancelSource = axios.CancelToken.source();
+    this.cancelSource = api.getCancelTokenSource();
     this.handleScrollEvent = this.handleScrollEvent.bind(this);
     this.scrollUp = this.scrollUp.bind(this);
   }
@@ -37,7 +37,7 @@ class ImagesContainer extends React.Component {
   componentWillUnmount() {
     this.removeScrollListener();
     // Cancel any ongoing requests.
-    this.cancelSource.cancel();
+    api.cancelRequests(this.cancelSource);
   }
 
   /**
@@ -57,7 +57,7 @@ class ImagesContainer extends React.Component {
   /**
    * Given an event name and page number retrieve a paginated list of images.
    * @param {string} event - name of the event
-   * @param {int} page - zero based
+   * @param {number} page - zero based
    */
   loadImages(event, page) {
     const {
@@ -68,14 +68,9 @@ class ImagesContainer extends React.Component {
       isFetching: true,
     });
 
-    const request = axios.create({
-      baseURL: 'http://rhea:5000/api/v1.0/',
-      timeout: 5000,
-      headers: { Accept: 'application/json' },
-    });
-
-    request.get(`images?event=${event}&page=${page}`, {
-      cancelToken: this.cancelSource.token,
+    api.getImages(this.cancelSource.token, {
+      event,
+      page,
     })
     .then((response) => {
       if (response.data.next === null) {
@@ -98,7 +93,7 @@ class ImagesContainer extends React.Component {
       });
     })
     .catch((error) => {
-      if (axios.isCancel(error)) {
+      if (api.isCancel(error)) {
         // User has navigated off the page while a request was in progress.
         return;
       }
