@@ -4,59 +4,52 @@ import styles from '../styles.css';
 
 /**
  * Get the file name from an absolute or relative path
- * @param {*} imagePath - absolute path
+ * @param {string} imagePath - absolute path
+ * @returns file name.
  * http://stackoverflow.com/questions/423376/how-to-get-the-file-name-from-a-full-path-using-javascript
  */
-const getFilename = (imagePath) => {
-  if (typeof imagePath === 'string') {
-    return imagePath.split('\\').pop().split('/').pop();
-  }
-
-  return '';
-};
+const getFilename = imagePath => (
+  (typeof imagePath === 'string') ? (
+    imagePath.split('\\').pop().split('/').pop()
+  ) : (
+    ''
+  )
+);
 
 /**
  * If additional images are being fetched, display a progress spinner
  * @param {bool} isFetching
  */
-const loadProgressBar = (isFetching) => {
-  if (isFetching) {
-    return (
-      <div className={styles['progress-container']}>
-        <div className={styles.progress}>
-          <i className="fa fa-spinner fa-pulse fa-2x fa-fw progress" />
-          <span className="sr-only">Loading...</span>
-        </div>
+const loadProgressBar = isFetching => (
+  isFetching ? (
+    <div className={styles['progress-container']}>
+      <div className={styles.progress}>
+        <i className="fa fa-spinner fa-pulse fa-2x fa-fw progress" />
+        <span className="sr-only">Loading...</span>
       </div>
-    );
-  }
-
-  return (
-    <span />
-  );
-};
+    </div>
+  ) : (
+    null
+  )
+);
 
 /**
  * Add a scroll up button in a fixed position.
  * @param {bool} isFetching
  * @param {func} onScrollRequest
  */
-const loadScrollHelper = (isFetching, onScrollRequest) => {
-  if (!isFetching) {
-    return (
-      <button
-        className={styles['scroll-button']}
-        onClick={onScrollRequest}
-      >
-        <i className="fa fa-angle-double-up fa-4x fa-inverse" />
-      </button>
-    );
-  }
-
-  return (
-    <span />
-  );
-};
+const loadScrollHelper = (isFetching, onScrollRequest) => (
+  !isFetching ? (
+    <button
+      className={styles['scroll-button']}
+      onClick={onScrollRequest}
+    >
+      <i className="fa fa-angle-double-up fa-4x fa-inverse" />
+    </button>
+  ) : (
+    null
+  )
+);
 
 const Images = ({ images, isFetching, onScrollRequest }) => (
   <div>
