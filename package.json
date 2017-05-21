@@ -12,6 +12,7 @@
     "prebuild": "npm run clean",
     "prestart": "npm run clean",
     "start": "cross-env NODE_ENV=development webpack --progress --colors --watch",
+    "lint": "eslint --ignore-path .eslintignore --ext .jsx,.js . --cache -- ./app/client && echo \"eslint: no lint errors\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,30 +26,38 @@
   },
   "homepage": "https://github.com/kthompson23/kaylin-and-kenny#readme",
   "dependencies": {
-    "axios": "^0.15.3",
+    "axios": "^0.16.1",
+    "babel-core": "^6.24.1",
+    "babel-preset-env": "^1.5.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "eslint": "^3.19.0",
     "immutable": "^3.8.1",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "react-redux": "^5.0.3",
+    "prop-types": "^15.5.10",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.5",
     "redux": "^3.6.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "webpack": "^2.5.1"
   },
   "devDependencies": {
     "babel-core": "^6.24.0",
-    "babel-loader": "^6.4.1",
+    "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.3.2",
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-3": "^6.22.0",
-    "cross-env": "^3.2.4",
-    "css-loader": "^0.27.3",
+    "cross-env": "^5.0.0",
+    "css-loader": "^0.28.1",
     "eslint": "^3.18.0",
-    "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.0.1",
     "rimraf": "^2.6.1",
-    "style-loader": "^0.14.1",
+    "style-loader": "^0.17.0",
     "webpack": "^2.2.1"
   }
 }
