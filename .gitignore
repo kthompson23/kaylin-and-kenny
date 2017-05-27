@@ -8,6 +8,7 @@ app/static/images/
 # Javascript
 node_modules/
 *.bundle.js*
+*.eslintcache
 npm-debug.log
 
 # Python specific stuff
