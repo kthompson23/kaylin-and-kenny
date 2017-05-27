@@ -1,2 +1,4 @@
 node_modules
 virtualenv
+webpack.bundle.js
+webpack.config.js
