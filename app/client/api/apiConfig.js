@@ -4,7 +4,7 @@ const apiVersion = 'v1.0';
 const apiBaseURL = 'http://rhea:5000/api';
 const timeout = 5000; // milliseconds
 const headers = {
-  Accept: 'appliction/json',
+  Accept: 'application/json',
 };
 
 const config = {
