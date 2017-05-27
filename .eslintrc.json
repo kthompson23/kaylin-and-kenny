@@ -20,5 +20,12 @@
     "no-unused-vars": "warn",
     "constructor-super": "warn",
     "valid-typeof": "warn"
-  }
+  },
+  "settings": {
+		"import/resolver": {
+			"webpack": {
+				"config": "./webpack.config.js"
+			}
+		}
+	}
 }

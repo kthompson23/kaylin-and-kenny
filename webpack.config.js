@@ -45,7 +45,7 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin(),
   ],
   resolve: {
-    modules: ['node_modules', './client/src'],
+    modules: [path.resolve(__dirname, './app/client'), 'node_modules'],
     extensions: ['.js', '.jsx'],
   },
 };
