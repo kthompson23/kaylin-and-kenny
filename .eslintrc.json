@@ -4,6 +4,7 @@
     "browser": true,
     "commonjs": true,
     "es6": true,
+    "mocha": true,
     "node": true
   },
   "parserOptions": {
@@ -21,6 +22,9 @@
     "constructor-super": "warn",
     "valid-typeof": "warn"
   },
+  "plugins": [
+    "mocha"
+  ],
   "settings": {
 		"import/resolver": {
 			"webpack": {

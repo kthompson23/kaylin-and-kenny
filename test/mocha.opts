@@ -1,0 +1,4 @@
+--require babel-register
+--require ignore-styles
+--recursive
+app/client/{,**/}*.spec.{js,jsx}
