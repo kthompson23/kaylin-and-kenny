@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Map as ImmMap } from 'immutable';
 
-import api from '../../api';
+import api from 'api';
 import Images from '../components/Images';
 import { actions as ImagesActions } from '../../redux/domain/Images';
 
@@ -17,7 +17,6 @@ class ImagesContainer extends React.Component {
     const event = eventNameNode.innerText;
     this.state = {
       event,
-      isFetching: false,
     };
 
     this.cancelSource = api.getCancelTokenSource();
@@ -62,44 +61,14 @@ class ImagesContainer extends React.Component {
    */
   loadImages(event, page) {
     const {
-      receiveImages,
+      getImages,
     } = this.props;
 
-    this.setState({
-      isFetching: true,
-    });
-
-    api.getImages(this.cancelSource.token, {
-      event,
-      page,
-    })
-    .then((response) => {
-      if (response.data.next === null) {
-        this.removeScrollListener();
-      }
-
-      receiveImages(
-        event,
-        response.data.results.images,
-        {
-          next: response.data.next,
-          page,
-          totalImages: response.data.totalImages,
-          totalPages: response.data.totalPages,
-        },
-      );
-
-      this.setState({
-        isFetching: false,
-      });
-    })
-    .catch((error) => {
-      if (api.isCancel(error)) {
-        // User has navigated off the page while a request was in progress.
-        return;
-      }
-      console.log(error);
-    });
+    try {
+      getImages(this.cancelSource.token, event, page);
+    } catch (ex) {
+      console.log(ex);
+    }
   }
 
   /**
@@ -108,7 +77,7 @@ class ImagesContainer extends React.Component {
    */
   handleScrollEvent() {
     if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
-      if (this.hasNext() && !this.state.isFetching) {
+      if (this.hasNext() && !this.props.isFetching) {
         // if a fetch is already in progress let it finish.
         this.loadImages(this.state.event, this.currPage() + 1);
       }
@@ -152,12 +121,13 @@ class ImagesContainer extends React.Component {
   render() {
     const {
       eventData,
+      isFetching,
     } = this.props;
 
     const images = eventData.getIn([this.state.event, 'images'], []);
     return (
       <Images
-        isFetching={this.state.isFetching}
+        isFetching={isFetching}
         images={images}
         onScrollRequest={this.scrollUp}
       />
@@ -167,13 +137,16 @@ class ImagesContainer extends React.Component {
 
 ImagesContainer.propTypes = {
   eventData: PropTypes.instanceOf(ImmMap).isRequired,
-  receiveImages: PropTypes.func.isRequired,
+  getImages: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const eventData = state.images.get('event');
+  const isFetching = state.images.get('isFetching');
   return {
     eventData,
+    isFetching,
   };
 };
 

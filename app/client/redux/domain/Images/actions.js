@@ -46,24 +46,45 @@ const updateFetchStatus = isFetching => ({
 });
 
 // Thunks
+/**
+ * Fetch a list of event images
+ * @param {axios cancel token} cancelToken
+ * @param {string} event
+ * @param {number} page
+ * @param {number} limit
+ */
 const getImages = (cancelToken, event, page, limit) => {
   return (dispatch) => {
+    dispatch(updateFetchStatus(true));
+
     return api.getImages(cancelToken, event, page, limit)
       .then((response) => {
-        dispatch(receiveImages(response.data.images, response.data.resultHeader));
+        dispatch(updateFetchStatus(false));
+        dispatch(
+          receiveImages(
+            event,
+            response.data.results.images,
+            {
+              next: response.data.next,
+              page,
+              totalImages: response.data.totalImages,
+              totalPages: response.data.totalPages,
+            },
+          ),
+        );
       })
       .catch((error) => {
+        dispatch(updateFetchStatus(false));
         if (api.isCancel(error)) {
           // request was cancelled.
           return;
         }
-
-        console.log(error);
+        updateFetchError(error);
       });
   };
 };
 
-export {
+export default {
   clearFetchError,
   getImages,
   receiveImages,
