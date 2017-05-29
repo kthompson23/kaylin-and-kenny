@@ -1,5 +1,5 @@
-import * as images from './images';
-import * as token from './token';
+import images from './images';
+import token from './token';
 
 const api = {
   ...images,

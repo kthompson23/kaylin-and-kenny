@@ -31,7 +31,7 @@ const isCancel = error => (
   axios.isCancel(error)
 );
 
-module.exports = {
+export default {
   cancelRequests,
   getCancelTokenSource,
   isCancel,

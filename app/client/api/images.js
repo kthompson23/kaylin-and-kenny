@@ -26,6 +26,6 @@ const getImages = (cancelToken, event, page = 0, limit = 50) => {
   });
 };
 
-module.exports = {
+export default {
   getImages,
 };
