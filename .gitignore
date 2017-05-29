@@ -10,6 +10,8 @@ node_modules/
 *.bundle.js*
 *.eslintcache
 npm-debug.log
+coverage/
+.nyc_output/
 
 # Python specific stuff
 __pycache__

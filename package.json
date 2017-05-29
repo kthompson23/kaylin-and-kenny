@@ -14,7 +14,8 @@
     "start": "cross-env NODE_ENV=development webpack --progress --colors --watch",
     "lint": "eslint --ignore-path .eslintignore --ext .jsx,.js . --cache ./app/client && echo \"eslint: no lint errors\"",
     "test": "npm run test:unit",
-    "test:unit": "cross-env NODE_ENV=test NODE_PATH=./app/client mocha"
+    "test:unit": "cross-env NODE_ENV=test NODE_PATH=./app/client mocha",
+    "test:coverage": "cross-env NODE_ENV=test NODE_PATH=./client/src BABEL_ENV=coverage nyc mocha && nyc report -r lcovonly"
   },
   "repository": {
     "type": "git",
@@ -66,6 +67,7 @@
     "ignore-styles": "^5.0.1",
     "mocha": "^3.4.2",
     "moxios": "^0.4.0",
+    "nyc": "^10.3.2",
     "redux-mock-store": "^1.2.3",
     "rimraf": "^2.6.1",
     "sinon": "^2.3.2",
