@@ -6,6 +6,15 @@ import axios from 'axios';
 import tokenHelpers from './token';
 
 describe('api/token', function () {
+  it('should cancel the request with a default message', function () {
+    const tokenSource = axios.CancelToken.source();
+    const sourceSpy = spy(tokenSource, 'cancel');
+    tokenHelpers.cancelRequests(tokenSource);
+    assert.isTrue(sourceSpy.calledWith(''), 'Did not call cancel');
+
+    sourceSpy.restore();
+  });
+
   it('should cancel the request with the optional message', function () {
     const tokenSource = axios.CancelToken.source();
     const sourceSpy = spy(tokenSource, 'cancel');
