@@ -15,7 +15,8 @@
     "lint": "eslint --ignore-path .eslintignore --ext .jsx,.js . --cache ./app/client && echo \"eslint: no lint errors\"",
     "test": "npm run test:unit",
     "test:unit": "cross-env NODE_ENV=test NODE_PATH=./app/client mocha",
-    "test:coverage": "cross-env NODE_ENV=test NODE_PATH=./app/client BABEL_ENV=coverage nyc mocha && nyc report -r lcovonly"
+    "test:coverage": "cross-env NODE_ENV=test NODE_PATH=./app/client BABEL_ENV=coverage nyc mocha && nyc report -r lcovonly",
+    "test:coverage:html": "cross-env NODE_ENV=test NODE_PATH=./app/client BABEL_ENV=coverage nyc mocha && nyc report --reporter=html"
   },
   "repository": {
     "type": "git",
