@@ -6,6 +6,8 @@ import { Map as ImmMap } from 'immutable';
 import throttle from 'lodash.throttle';
 
 import api from 'api';
+import toJS from 'shared/to-js';
+
 import Images from '../components/Images';
 import { actions as ImagesActions } from '../../redux/domain/Images';
 
@@ -46,14 +48,18 @@ class ImagesContainer extends React.Component {
    * Helper to return the last page that was fetched.
    */
   currPage() {
-    return this.props.eventData.getIn([this.state.event, 'resultHeader', 'page'], 0);
+    const { eventData } = this.props;
+    return eventData[this.state.event] != null ? eventData[this.state.event].resultHeader.page : 0;
   }
 
   /**
    * Helper to retun whether there are more pages available or not.
    */
   hasNext() {
-    return this.props.eventData.getIn([this.state.event, 'resultHeader', 'next'], null) !== null;
+    const { eventData } = this.props;
+    return eventData[this.state.event] != null
+      ? eventData[this.state.event].resultHeader.next
+      : false;
   }
 
   /**
@@ -133,7 +139,9 @@ class ImagesContainer extends React.Component {
       isFetching,
     } = this.props;
 
-    const images = eventData.getIn([this.state.event, 'images'], []);
+    const images = eventData[this.state.event] !== undefined
+      ? eventData[this.state.event].images
+      : [];
     return (
       <Images
         isFetching={isFetching}
@@ -164,4 +172,4 @@ const mapDispatchToProps = dispatch => (
 );
 
 // connect returns a function that accepts a component
-export default connect(mapStateToProps, mapDispatchToProps)(ImagesContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(toJS(ImagesContainer));
