@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/kthompson23/kaylin-and-kenny#readme",
   "dependencies": {
-    "axios": "^0.16.1",
+    "axios": "^0.16.2",
     "babel-core": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-env": "^1.5.1",
@@ -60,23 +60,23 @@
     "cross-env": "^5.0.0",
     "css-loader": "^0.28.1",
     "enzyme": "^2.8.2",
-    "eslint": "^3.18.0",
+    "eslint": "^4.1.1",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-import-resolver-webpack": "^0.8.1",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-mocha": "^4.9.0",
     "eslint-plugin-react": "^7.0.1",
     "ignore-styles": "^5.0.1",
     "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
     "moxios": "^0.4.0",
-    "nyc": "^10.3.2",
+    "nyc": "^11.0.3",
     "redux-mock-store": "^1.2.3",
     "rimraf": "^2.6.1",
     "sinon": "^2.3.2",
     "style-loader": "^0.18.1",
-    "webpack": "^2.2.1"
+    "webpack": "^3.0.0"
   },
   "nyc": {
     "extension": [
