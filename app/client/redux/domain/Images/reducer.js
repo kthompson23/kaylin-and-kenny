@@ -1,4 +1,4 @@
-import { Map as ImmMap } from 'immutable';
+import { List, fromJS, Map as ImmMap } from 'immutable';
 import { FETCH_ERROR, IS_FETCHING, RECEIVE_IMAGES } from './constants';
 
 export const initialState = new ImmMap({
@@ -15,11 +15,11 @@ const ImagesReducer = (state = initialState, action) => {
       return state.set('isFetching', action.isFetching);
     case RECEIVE_IMAGES: {
       const eventName = action.event;
-      const prevImages = state.getIn(['event', eventName, 'images'], []);
-      const images = prevImages.concat(action.images);
+      const prevImages = state.getIn(['event', eventName, 'images'], new List());
+      const images = prevImages.concat(fromJS(action.images));
       return state.mergeIn(['event', eventName], {
         images,
-        resultHeader: action.resultHeader,
+        resultHeader: fromJS(action.resultHeader),
       });
     }
     default:

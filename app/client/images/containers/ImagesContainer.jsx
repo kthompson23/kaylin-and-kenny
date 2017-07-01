@@ -2,14 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Map as ImmMap } from 'immutable';
 import throttle from 'lodash.throttle';
 
 import api from 'api';
 import toJS from 'shared/to-js';
-
+import { actions as ImagesActions } from 'redux/domain/Images';
 import Images from '../components/Images';
-import { actions as ImagesActions } from '../../redux/domain/Images';
 
 class ImagesContainer extends React.Component {
   constructor() {
@@ -153,7 +151,10 @@ class ImagesContainer extends React.Component {
 }
 
 ImagesContainer.propTypes = {
-  eventData: PropTypes.instanceOf(ImmMap).isRequired,
+  eventData: PropTypes.shape({
+    images: PropTypes.array,
+    resultHeader: PropTypes.object,
+  }).isRequired,
   getImages: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
 };
