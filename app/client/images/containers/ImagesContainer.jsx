@@ -75,10 +75,13 @@ class ImagesContainer extends React.Component {
 
   /**
    * Fetch any additional image pages when the user scrolls to the bottom
-   * of the page.
+   * of the page. If they are within 200 pixels initiate a new fetch.
    */
   handleScrollEvent() {
-    if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+    const pixelsFromBottom
+      = (0 + document.body.offsetHeight) - window.pageYOffset - window.innerHeight;
+
+    if (pixelsFromBottom <= 200) {
       if (this.hasNext() && !this.props.isFetching) {
         // if a fetch is already in progress let it finish.
         this.loadImages(this.state.event, this.currPage() + 1);
