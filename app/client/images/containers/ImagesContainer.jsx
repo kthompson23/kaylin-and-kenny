@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Map as ImmMap } from 'immutable';
+import throttle from 'lodash.throttle';
 
 import api from 'api';
 import Images from '../components/Images';
@@ -22,12 +23,13 @@ class ImagesContainer extends React.Component {
     this.cancelSource = api.getCancelTokenSource();
     this.handleScrollEvent = this.handleScrollEvent.bind(this);
     this.scrollUp = this.scrollUp.bind(this);
+    this.scrollHandler = throttle(this.handleScrollEvent, 300);
   }
 
   componentDidMount() {
     // Infinite image scroll. If the user scrolls to the bottom of the page and there are
     // additional images, go fetch them.
-    window.addEventListener('scroll', this.handleScrollEvent);
+    window.addEventListener('scroll', this.scrollHandler);
 
     // api paging is zero based.
     const page = 0;
@@ -81,6 +83,10 @@ class ImagesContainer extends React.Component {
         // if a fetch is already in progress let it finish.
         this.loadImages(this.state.event, this.currPage() + 1);
       }
+
+      if (!this.hasNext()) {
+        this.removeScrollListener();
+      }
     }
   }
 
@@ -89,7 +95,7 @@ class ImagesContainer extends React.Component {
    * Checking if the user has reached the bottom of the page.
    */
   removeScrollListener() {
-    window.removeEventListener('scroll', this.handleScrollEvent);
+    window.removeEventListener('scroll', this.scrollHandler);
   }
 
   /**
